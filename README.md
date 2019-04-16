@@ -4,5 +4,7 @@ A virtual player that can use computer camera to observe state and make move in 
 
 ## Setup
 ```
+virtualenv venv
+. venv/bin/activate
 pip install -r requirements.txt
 ```
