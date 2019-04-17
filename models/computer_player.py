@@ -19,9 +19,9 @@ class Move:
 
 def optimum_move(computer, human, state: State, player):
     available_spots = empty_fields(state)
-    if state.winning(player) and player != computer:
+    if state.winning(human):
         return Move(None, -10)  # when computer loses -> move.score = -10
-    elif state.winning(player):
+    elif state.winning(computer):
         return Move(None, 10)   # when computer wins -> move.score = 10
     elif len(available_spots) == 0:
         return Move(None, 0)    # when there is no more fields -> tie
