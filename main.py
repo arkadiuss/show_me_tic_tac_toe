@@ -1,15 +1,15 @@
-#import vision.state_reader as reader
+import vision.state_reader as reader
 from models.computer_player import ComputerPlayer
 from models.human_player import HumanPlayer
-from models.state import State
+from models.memory_state import MemoryState
 
-#reader.init()
+reader.init()
 
 players = [HumanPlayer("O", "Humek"), ComputerPlayer("X", "Compek")]
 turn = 0
-state = State([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+state = MemoryState([[0, 0, 0], [0, 0, 0], [0, 0, 0]], moves=["O", "X"])
 
-while True:
+while not state.end():
     #frame = reader.get_state()
     #print(frame)
     print(state)
@@ -20,14 +20,7 @@ while True:
         print(te)
         break
 
-    if state.winning(players[turn].symbol):
-        print(players[turn].name+" WINS")
-        print(state)
-        break
-    if state.tie():
-        print("TIE")
-        print(state)
-        break
-
     turn = (turn + 1) % 2
-#reader.destroy()
+
+print(state.result())
+reader.destroy()
