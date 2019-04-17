@@ -5,9 +5,10 @@ from models.state import State
 
 class Player(ABC):
 
-    def __init__(self, name):
+    def __init__(self, symbol, name):
+        self.symbol = symbol
         self.name = name
 
     @abstractmethod
-    def move(self, state: State):
+    def move(self, other, state: State):
         pass
