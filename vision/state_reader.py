@@ -1,4 +1,5 @@
 import cv2
+import vision.image_processor as ip
 
 
 def init():
@@ -7,12 +8,17 @@ def init():
 
 
 def get_state():
-    ret, frame = cap.read()
-    gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
-    _, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
-    print(binary)
-    cv2.imshow('frame', binary)
-    cv2.imwrite('out.png', binary)
+    # ret, frame = cap.read()
+    # cv2.imshow('frame', frame)
+    # cv2.imwrite('out2.png', frame)
+    # cv2.waitKey(1) & 0xFF == ord('q')
+    # return frame
+    # for testing
+    frame = cv2.imread('out2.png')
+    binary = ip.to_binary_color(frame)
+    sq = ip.split_to_squares(binary)
+    cv2.imshow('frame', sq)
+    # cv2.imwrite('out.png', binary)
     cv2.waitKey(1) & 0xFF == ord('q')  # required to show
     return frame
 
