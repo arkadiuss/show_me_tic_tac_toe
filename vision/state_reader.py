@@ -17,8 +17,13 @@ def get_state():
     frame = cv2.imread('out2.png')
     binary = ip.to_binary_color(frame)
     sq = ip.split_to_squares(binary)
-    cv2.imshow('frame', sq)
-    # cv2.imwrite('out.png', binary)
+    state = []
+    for row in sq:
+        state.append([])
+        for column in row:
+            state[-1].append(ip.recognize_shape(column))
+    print(state)
+    cv2.imshow('frame', frame)
     cv2.waitKey(1) & 0xFF == ord('q')  # required to show
     return frame
 

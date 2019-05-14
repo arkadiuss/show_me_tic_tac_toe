@@ -14,7 +14,7 @@ def _get_lines(frame, kernel):
     dltd = cv2.dilate(frame, kernel, iterations=1)
     lines = cv2.HoughLines(255 - dltd, 1, np.pi / 180, 200)
     return np.array([abs(l[0][0]) for l in lines])
-    #old for printing lines
+    # old for printing lines
     res = np.ones(frame.shape)
     if lines is not None:
         for i in range(len(lines)):
@@ -32,7 +32,7 @@ def _get_lines(frame, kernel):
 
 
 def _filter_lines(lines):
-    threshold = 40 # TODO: make it dynamic
+    threshold = 40  # TODO: make it dynamic
     res = []
     for l in lines:
         take = True
@@ -56,5 +56,32 @@ def split_to_squares(frame):
     for i in range(1, len(hlines)):
         res.append([])
         for j in range(1, len(vlines)):
-            res[-1].append(frame[hlines[i-1]:hlines[i], vlines[j-1]:vlines[j]])
-    return res[1][1]
+            res[-1].append(frame[hlines[i - 1]:hlines[i], vlines[j - 1]:vlines[j]])
+    return res
+
+
+def _is_circle(frame):
+    circ = cv2.HoughCircles(frame, cv2.HOUGH_GRADIENT, 1, 20,
+                                param1=50, param2=30, minRadius=0, maxRadius=0)
+    return circ is not None and len(circ) == 1
+
+
+def _is_empty(frame):
+    padding = 40
+    threshold = 50
+    sh = frame.shape
+    padded = frame[padding:sh[0]-padding, padding:sh[1]-padding]
+    return np.count_nonzero(255 - padded) < threshold
+
+
+# TODO
+def _is_cross(frame):
+    pass
+
+
+def recognize_shape(frame):
+    if _is_circle(frame):
+        return 'o'
+    if _is_empty(frame):
+        return ' '
+    return 'x'
