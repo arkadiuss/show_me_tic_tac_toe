@@ -1,5 +1,5 @@
 from models.player import Player
-from models.state import State
+from state.state import State
 
 
 def empty_fields(state: State):

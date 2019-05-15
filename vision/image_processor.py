@@ -12,8 +12,8 @@ def to_binary_color(frame):
 
 def _get_lines(frame, kernel):
     dltd = cv2.dilate(frame, kernel, iterations=1)
-    lines = cv2.HoughLines(255 - dltd, 1, np.pi / 180, 200)
-    return np.array([abs(l[0][0]) for l in lines])
+    lines = cv2.HoughLines(255 - dltd, 1, np.pi / 180, 150)
+    return [] if lines is None else np.array([abs(l[0][0]) for l in lines])
     # old for printing lines
     res = np.ones(frame.shape)
     if lines is not None:
@@ -48,8 +48,8 @@ def _filter_lines(lines):
 def split_to_squares(frame):
     hkernel = np.ones((1, 100))
     vkernel = np.ones((100, 1))
-    hlines = [0] + _filter_lines(_get_lines(frame, hkernel)) + [frame.shape[0]]
-    vlines = [0] + _filter_lines(_get_lines(frame, vkernel)) + [frame.shape[1]]
+    hlines = [0] + _filter_lines(_get_lines(frame, hkernel)) + [frame.shape[0] - 1]
+    vlines = [0] + _filter_lines(_get_lines(frame, vkernel)) + [frame.shape[1] - 1]
     hlines.sort()
     vlines.sort()
     res = []
@@ -57,12 +57,14 @@ def split_to_squares(frame):
         res.append([])
         for j in range(1, len(vlines)):
             res[-1].append(frame[hlines[i - 1]:hlines[i], vlines[j - 1]:vlines[j]])
-    return res
+    return res, (hlines, vlines)
 
 
 def _is_circle(frame):
+    if np.all(frame == 0):
+        return False
     circ = cv2.HoughCircles(frame, cv2.HOUGH_GRADIENT, 1, 20,
-                                param1=50, param2=30, minRadius=0, maxRadius=0)
+                            param1=50, param2=30, minRadius=0, maxRadius=0)
     return circ is not None and len(circ) == 1
 
 
@@ -70,7 +72,7 @@ def _is_empty(frame):
     padding = 40
     threshold = 50
     sh = frame.shape
-    padded = frame[padding:sh[0]-padding, padding:sh[1]-padding]
+    padded = frame[padding:sh[0] - padding, padding:sh[1] - padding]
     return np.count_nonzero(255 - padded) < threshold
 
 
