@@ -1,5 +1,3 @@
-import math
-
 import cv2
 import numpy as np
 
@@ -14,21 +12,6 @@ def _get_lines(frame, kernel):
     dltd = cv2.dilate(frame, kernel, iterations=1)
     lines = cv2.HoughLines(255 - dltd, 1, np.pi / 180, 150)
     return [] if lines is None else np.array([abs(l[0][0]) for l in lines])
-    # old for printing lines
-    res = np.ones(frame.shape)
-    if lines is not None:
-        for i in range(len(lines)):
-            rho = lines[i][0][0]
-            theta = lines[i][0][1]
-            a = math.cos(theta)
-            b = math.sin(theta)
-            x0 = a * rho
-            y0 = b * rho
-            pt1 = (int(x0 + 1000 * (-b)), int(y0 + 1000 * (a)))
-            pt2 = (int(x0 - 1000 * (-b)), int(y0 - 1000 * (a)))
-            print(pt1, pt2, frame.shape)
-            cv2.line(res, pt1, pt2, (0, 255, 0), 3, cv2.LINE_AA)
-    return res
 
 
 def _filter_lines(lines):

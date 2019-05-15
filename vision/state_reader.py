@@ -7,11 +7,7 @@ import numpy as np
 def init():
     global cap
     cap = cv2.VideoCapture(0)
-    cap.set(cv2.CAP_PROP_FPS, 1)
-    width = int(cap.get(3))
-    height = int(cap.get(4))
-    fps = int(cap.get(5))
-    print(width, height, fps)
+    print("Video initialized {0}x{1}, {2} fps".format(int(cap.get(3)), int(cap.get(4)), int(cap.get(5))))
 
 
 def _paste_non_zero(dest, src):
@@ -33,11 +29,6 @@ def _add_lines(frame, lines):
 
 
 def get_state():
-    # ret, frame = cap.read()
-    # cv2.imshow('frame', frame)
-    # cv2.imwrite('out2.png', frame)
-    # cv2.waitKey(1) & 0xFF == ord('q')
-    # return frame
     # for testing
     # frame = cv2.imread('out2.png')
     ret, frame = cap.read()
@@ -51,7 +42,6 @@ def get_state():
     _add_lines(binary, lines)
     cv2.imshow('frame', binary)
     cv2.waitKey(1) & 0xFF == ord('q')  # required to show
-    print(state)
     return state
 
 
