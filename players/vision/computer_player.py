@@ -16,13 +16,14 @@ class ComputerPlayer(Player):
         self.voice.say(text)
 
     def move(self, state: State, opponent):
+        board = state.board()
         self.say("Now it's my turn! You will lose!")
-        movement = optimum_move(state.board(), opponent.symbol, self.symbol, self.symbol).index
+        movement = optimum_move(board, opponent.symbol, self.symbol, self.symbol).index
         r, c = movement
         self.say("Please put {0} in {1} row and {2} column".format(
             symbol_name(self.symbol), number_name(r+1), number_name(c + 1)))
         try:
-            dr, dc = wait_for_move(state, self.symbol)
+            dr, dc = wait_for_move(board, state, self.symbol)
             if dr != r or dc != c:
                 raise MoveError
         except MoveError:

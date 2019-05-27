@@ -3,12 +3,12 @@ from state.state import State
 from utils.tic_tac_toe_utils import diff
 
 
-def wait_for_move(state: State, expected_move):
-    pboard = state.board()
+def wait_for_move(prevboard, state: State, expected_move):
+    pboard = prevboard
     board = state.board()
     while True:
         d, diffs = diff(pboard, board)
-        print(d, diffs)
+        print(d, diffs, pboard, board)
         if d == 1:
             dr, dc = diffs[0]
             if pboard[dr][dc] != 0:
