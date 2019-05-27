@@ -31,8 +31,8 @@ class State(ABC):
     def result(self):
         for m in self.moves:
             if self._winning(m):
-                return "Player " + m + "is winning"
-        return "Tie"
+                return m
+        return 0
 
     def _is_full(self):
         return is_full(self.board())
