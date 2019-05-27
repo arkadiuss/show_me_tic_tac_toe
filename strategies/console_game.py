@@ -1,5 +1,5 @@
-from models.computer_player import ComputerPlayer
-from models.human_player import HumanPlayer
+from players.console.computer_player import ComputerPlayer
+from players.console.human_player import HumanPlayer
 from state.memory_state import MemoryState
 from strategies.game_strategy import GameStrategy
 

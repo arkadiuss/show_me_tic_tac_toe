@@ -29,11 +29,16 @@ def _add_lines(frame, lines):
 
 
 def get_state():
+    threshold = 5
     # for testing
     # frame = cv2.imread('out2.png')
     ret, frame = cap.read()
     binary = ip.to_binary_color(frame)
     sq, lines = ip.split_to_squares(binary)
+    if len(sq) < 2 or len(sq) > threshold or len(sq[0]) > threshold:
+        cv2.imshow('frame', binary)
+        cv2.waitKey(1) & 0xFF == ord('q')
+        return []
     state = []
     for row in sq:
         state.append([])

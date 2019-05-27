@@ -1,4 +1,5 @@
-from models.human_vision_player import HumanVisionPlayer
+from players.vision.human_player import HumanPlayer
+from players.vision.computer_player import ComputerPlayer
 from state.vision_state import VisionState
 from strategies.game_strategy import GameStrategy
 
@@ -7,5 +8,5 @@ class VisionHumanPlayersGame(GameStrategy):
 
     def __init__(self):
         super().__init__(
-            players=[HumanVisionPlayer(name="Mikolaj", symbol='x'), HumanVisionPlayer(name="Arek", symbol='o')],
+            players=[HumanPlayer(name="Mikolaj", symbol='x'), ComputerPlayer(name="Arek", symbol='o')],
             state=VisionState(3, moves=['x', 'o']))

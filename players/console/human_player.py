@@ -1,4 +1,4 @@
-from models.player import Player
+from players.player import Player
 from state.state import State
 
 

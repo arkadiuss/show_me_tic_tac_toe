@@ -4,7 +4,7 @@ import numpy as np
 
 def to_binary_color(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
-    _, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+    _, binary = cv2.threshold(gray, 110, 255, cv2.THRESH_BINARY)
     return binary
 
 
