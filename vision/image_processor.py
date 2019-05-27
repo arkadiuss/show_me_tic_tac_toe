@@ -68,5 +68,5 @@ def recognize_shape(frame):
     if _is_circle(frame):
         return 'o'
     if _is_empty(frame):
-        return ' '
+        return 0
     return 'x'

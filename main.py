@@ -1,14 +1,10 @@
 import vision.state_reader as reader
 from strategies.console_game import ConsoleGame
-# VISION TEST
-# reader.init()
-#
-# while 1:
-#     frame = reader.get_state()
-# reader.destroy()
+from strategies.vision_game import VisionHumanPlayersGame
 
-# MEMORY STATE TEST
-strategy = ConsoleGame()
+
+# strategy = ConsoleGame()
+strategy = VisionHumanPlayersGame()
 state = strategy.state
 players = strategy.players
 turn = 0
@@ -23,3 +19,11 @@ while not state.end():
     turn = (turn + 1) % 2
 
 print(state.result())
+
+
+# VISION TEST
+# reader.init()
+#
+# while 1:
+#     frame = reader.get_state()
+# reader.destroy()

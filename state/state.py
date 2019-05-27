@@ -4,8 +4,7 @@ from utils.tic_tac_toe_utils import winning, is_full
 
 class State(ABC):
 
-    def __init__(self, board, moves):
-        self._board = board
+    def __init__(self, moves):
         self.moves = moves
 
     def __str__(self):

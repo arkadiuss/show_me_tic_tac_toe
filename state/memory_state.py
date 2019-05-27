@@ -4,7 +4,8 @@ from state.state import State
 class MemoryState(State):
 
     def __init__(self, board, moves):
-        super().__init__(board, moves)
+        super().__init__(moves)
+        self._board = board
 
     def board(self):
         return self._board
