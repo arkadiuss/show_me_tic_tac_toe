@@ -29,5 +29,6 @@ class Speech:
             self.engine.setProperty('voice', 'english+f1')
         else:
             self.engine.setProperty('voice', 'english+m1')
+        print(text)
         self.engine.say(text)
         self.engine.runAndWait()
