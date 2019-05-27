@@ -10,5 +10,5 @@ class Player(ABC):
         self.name = name
 
     @abstractmethod
-    def move(self, other, state: State):
+    def move(self, state: State, opponent):
         pass

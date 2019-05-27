@@ -7,8 +7,9 @@ class HumanPlayer(Player):
     def __init__(self, symbol, name):
         super().__init__(symbol, name)
 
-    def move(self, computer, state: State):
+    def move(self, state: State, opponent: Player):
         correct_input = False
+        board = state.board()
         while not correct_input:
             movement = input()
             if len(movement) > 1:
@@ -16,9 +17,9 @@ class HumanPlayer(Player):
             if ord(movement) < 48 or ord(movement) > 56:
                 raise TypeError("Wrong input!\n")
             movement = int(movement, 10)
-            if state.board[movement // len(state.board)][movement % len(state.board)] != 0:
+            if board[movement // len(board)][movement % len(board)] != 0:
                 print("This field is busy!\nWrite correct number of field.\n")
                 print(state)
             else:
                 correct_input = True
-        state.board[movement//len(state.board)][movement % len(state.board)] = self.symbol
+        state.move(movement//len(board), movement % len(board), self.symbol)

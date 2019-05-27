@@ -14,3 +14,7 @@ class State(ABC):
     def result(self):
         pass
 
+    @abstractmethod
+    def move(self, r, c, move):
+        pass
+

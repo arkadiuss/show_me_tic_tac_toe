@@ -1,28 +1,25 @@
 import vision.state_reader as reader
+from strategies.console_game import ConsoleGame
+# VISION TEST
+# reader.init()
+#
+# while 1:
+#     frame = reader.get_state()
+# reader.destroy()
 
-reader.init()
+# MEMORY STATE TEST
+strategy = ConsoleGame()
+state = strategy.state
+players = strategy.players
+turn = 0
 
-while 1:
-    frame = reader.get_state()
-    #print(frame)
+while not state.end():
+    print(state)
+    try:
+        players[turn].move(state, players[(turn+1) % 2])
+    except TypeError as te:
+        print(te)
+        break
+    turn = (turn + 1) % 2
 
-    #time.sleep(10)
-
-# players = [HumanPlayer("O", "Humek"), ComputerPlayer("X", "Compek")]
-# turn = 0
-# state = MemoryState([[0, 0, 0], [0, 0, 0], [0, 0, 0]], moves=["O", "X"])
-#
-# while not state.end():
-#
-#     #print(state)
-#
-#     try:
-#         players[turn].move(players[(turn+1) % 2], state)
-#     except TypeError as te:
-#         print(te)
-#         break
-#
-#     turn = (turn + 1) % 2
-#
-# print(state.result())
-reader.destroy()
+print(state.result())
