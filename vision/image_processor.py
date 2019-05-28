@@ -1,10 +1,12 @@
+import math
+
 import cv2
 import numpy as np
 
 
 def to_binary_color(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
-    _, binary = cv2.threshold(gray, 110, 255, cv2.THRESH_BINARY)
+    _, binary = cv2.threshold(gray, 120, 255, cv2.THRESH_BINARY)
     return binary
 
 
@@ -51,22 +53,49 @@ def _is_circle(frame):
     return circ is not None and len(circ) == 1
 
 
-def _is_empty(frame):
-    padding = 40
-    threshold = 50
+def _pad_image(frame, padding=40):
     sh = frame.shape
-    padded = frame[padding:sh[0] - padding, padding:sh[1] - padding]
+    return frame[padding:sh[0] - padding, padding:sh[1] - padding]
+
+
+def _is_empty(frame):
+    threshold = 50
+    padded = _pad_image(frame)
     return np.count_nonzero(255 - padded) < threshold
 
 
-# TODO
+def _filter_cross_lines(lines):
+    if lines is None:
+        return []
+    threshold = 0.35
+    min = 0.6  # minimal angle
+    max = 0.95  # maximal angle
+    res = []
+    for l in lines:
+        ang = l[0][1] if l[0][0] > 0 else math.pi - l[0][1]
+        print(ang)
+        if ang < min or ang > max:
+            continue
+        toadd = True
+        for r in res:
+            if abs(r - ang) < 0.35:
+                toadd = False
+        if toadd:
+            res.append(ang)
+    return res
+
+
 def _is_cross(frame):
-    pass
+    pframe = _pad_image(frame, 20)
+    cv2.imshow('frame', pframe)
+    lines = cv2.HoughLines(255 - pframe, 1, np.pi / 180, 120)
+    print(_filter_cross_lines(lines))
+    return len(_filter_cross_lines(lines)) == 2
 
 
 def recognize_shape(frame):
     if _is_circle(frame):
         return 'o'
-    if _is_empty(frame):
-        return 0
-    return 'x'
+    if _is_cross(frame):
+        return 'x'
+    return 0

@@ -20,7 +20,7 @@ class VisionState(State):
         sr.init()
 
     def board(self):
-        threshold = 15
+        threshold = 30
         board = sr.get_state()
         r = 0  # repeat - how many times was this state
         while not _is_valid(board, self.board_size) or r < threshold:
