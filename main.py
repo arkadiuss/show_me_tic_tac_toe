@@ -3,15 +3,16 @@ from strategies.console_game import ConsoleGame
 from strategies.vision_game import VisionHumanPlayersGame
 
 # VISION TEST
-import time
-import vision.state_reader as reader
-reader.init()
+# import time
+# import vision.state_reader as reader
+# reader.init()
+#
+# while 1:
+#     frame = reader.get_state()
+#     print(frame)
+#     # time.sleep(3)
+# reader.destroy()
 
-while 1:
-    frame = reader.get_state()
-    print(frame)
-    time.sleep(3)
-reader.destroy()
 
 def result_text(sym, plrs):
     if sym == 0:

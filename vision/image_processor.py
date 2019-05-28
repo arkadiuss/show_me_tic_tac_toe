@@ -49,7 +49,7 @@ def _is_circle(frame):
     if np.all(frame == 0):
         return False
     circ = cv2.HoughCircles(frame, cv2.HOUGH_GRADIENT, 1, 20,
-                            param1=50, param2=30, minRadius=0, maxRadius=0)
+                            param1=50, param2=25, minRadius=0, maxRadius=0)
     return circ is not None and len(circ) == 1
 
 
@@ -68,34 +68,36 @@ def _filter_cross_lines(lines):
     if lines is None:
         return []
     threshold = 0.35
-    min = 0.6  # minimal angle
-    max = 0.95  # maximal angle
+    min = 0.55  # minimal angle
+    max = 1.05  # maximal angle
     res = []
     for l in lines:
-        ang = l[0][1] if l[0][0] > 0 else math.pi - l[0][1]
-        print(ang)
+        ang = l[0][1] if l[0][1] < math.pi/2 else math.pi - l[0][1]
         if ang < min or ang > max:
             continue
         toadd = True
         for r in res:
-            if abs(r - ang) < 0.35:
+            if abs(r - l[0][1]) < threshold:
                 toadd = False
         if toadd:
-            res.append(ang)
+            res.append(l[0][1])
     return res
 
 
 def _is_cross(frame):
+    if np.all(frame == 0):
+        return False
     pframe = _pad_image(frame, 20)
-    cv2.imshow('frame', pframe)
     lines = cv2.HoughLines(255 - pframe, 1, np.pi / 180, 120)
-    print(_filter_cross_lines(lines))
+    # cv2.imshow('frame2', pframe)
+    # print(lines)
+    # print(_filter_cross_lines(lines))
     return len(_filter_cross_lines(lines)) == 2
 
 
 def recognize_shape(frame):
-    if _is_circle(frame):
-        return 'o'
     if _is_cross(frame):
         return 'x'
+    if _is_circle(frame):
+        return 'o'
     return 0

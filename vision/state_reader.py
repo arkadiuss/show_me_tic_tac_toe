@@ -31,8 +31,8 @@ def _add_lines(frame, lines):
 def get_state():
     threshold = 5
     # for testing
-    frame = cv2.imread('out2.png')
-    # ret, frame = cap.read()
+    # frame = cv2.imread('out3.png')
+    ret, frame = cap.read()
     binary = ip.to_binary_color(frame)
     sq, lines = ip.split_to_squares(binary)
     if len(sq) < 2 or len(sq) > threshold or len(sq[0]) > threshold:
@@ -40,13 +40,14 @@ def get_state():
         cv2.waitKey(1) & 0xFF == ord('q')
         return []
     state = []
-    ip.recognize_shape(sq[1][1])
-    # for row in sq:
-    #     state.append([])
-    #     for column in row:
-    #         state[-1].append(ip.recognize_shape(column))
+    # ip.recognize_shape(sq[1][1])
+    for row in sq:
+        state.append([])
+        for column in row:
+            state[-1].append(ip.recognize_shape(column))
+    # cv2.imwrite('out4.png', binary)
     _add_lines(binary, lines)
-    # cv2.imshow('frame', binary)
+    cv2.imshow('frame', binary)
     cv2.waitKey(1) & 0xFF == ord('q')  # required to show
     return state
 
