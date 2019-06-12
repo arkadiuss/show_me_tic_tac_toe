@@ -25,8 +25,8 @@ class ComputerPlayer(Player):
         try:
             dr, dc = wait_for_move(board, state, self.symbol)
             if dr != r or dc != c:
-                raise MoveError
-        except MoveError:
-            self.say("You tried to lie me. I won't play with you!")
-            raise MoveError
+                raise MoveError("Sign was putted not in requested place")
+        except MoveError as e:
+            self.say("You tried to lie me. I won't play with you, because {0}".format(e))
+            raise MoveError("Computer move error")
         self.say("Thank you")

@@ -10,3 +10,6 @@ class VisionHumanPlayersGame(GameStrategy):
         super().__init__(
             players=[HumanPlayer(name="Mikolaj", symbol='x'), ComputerPlayer(name="Arek", symbol='o')],
             state=VisionState(3, moves=['x', 'o']))
+
+    def introduce(self):
+        return "Vision game is a future. Now please show me the board."

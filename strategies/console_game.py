@@ -11,3 +11,8 @@ class ConsoleGame(GameStrategy):
         super().__init__(
             players=[HumanPlayer(name="Humek", symbol='x'), ComputerPlayer(name="Comp", symbol='o')],
             state=MemoryState(board, moves=['x', 'o']))
+
+    def introduce(self):
+        return "Console game is also a good game. Let's play!"
+
+
