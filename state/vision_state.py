@@ -1,4 +1,5 @@
 from model import Board
+from properties import GlobalProperties
 from state.state import State
 import vision.state_reader as sr
 from utils.tic_tac_toe_utils import diff
@@ -21,7 +22,7 @@ class VisionState(State):
         sr.init()
 
     def board(self):
-        threshold = 30
+        threshold = GlobalProperties.histeresis
         board = sr.get_state()
         r = 0  # repeat - how many times was this state
         while not _is_valid(board, self.board_size) or r < threshold:

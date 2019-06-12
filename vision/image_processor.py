@@ -3,21 +3,23 @@ import math
 import cv2
 import numpy as np
 
+from properties import GlobalProperties
+
 
 def to_binary_color(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
-    _, binary = cv2.threshold(gray, 120, 255, cv2.THRESH_BINARY)
+    _, binary = cv2.threshold(gray, GlobalProperties.black_threshold, 255, cv2.THRESH_BINARY)
     return binary
 
 
 def _get_lines(frame, kernel):
     dltd = cv2.dilate(frame, kernel, iterations=1)
-    lines = cv2.HoughLines(255 - dltd, 1, np.pi / 180, 150)
+    lines = cv2.HoughLines(255 - dltd, 1, np.pi / 180, GlobalProperties.line_votes)
     return [] if lines is None else np.array([abs(l[0][0]) for l in lines])
 
 
 def _filter_lines(lines):
-    threshold = 40  # TODO: make it dynamic
+    threshold = GlobalProperties.line_space_threshold
     res = []
     for l in lines:
         take = True
@@ -68,8 +70,8 @@ def _filter_cross_lines(lines):
     if lines is None:
         return []
     threshold = 0.35
-    min = 0.55  # minimal angle
-    max = 1.05  # maximal angle
+    min = GlobalProperties.min_cross_angle  # minimal angle
+    max = GlobalProperties.max_cross_angle  # maximal angle
     res = []
     for l in lines:
         ang = l[0][1] if l[0][1] < math.pi/2 else math.pi - l[0][1]

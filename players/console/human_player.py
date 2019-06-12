@@ -17,7 +17,7 @@ class HumanPlayer(Player):
             if ord(movement) < 48 or ord(movement) > 56:
                 raise TypeError("Wrong input!\n")
             movement = int(movement, 10)
-            if board[movement // len(board)][movement % len(board)] != 0:
+            if board(movement // len(board), movement % len(board)) != 0:
                 print("This field is busy!\nWrite correct number of field.\n")
                 print(state)
             else:
