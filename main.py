@@ -13,8 +13,8 @@ def result_text(sym, plrs):
     return "Unknown result"
 
 
-strategy = ConsoleGame()
-# strategy = VisionHumanPlayersGame()
+# strategy = ConsoleGame()
+strategy = VisionHumanPlayersGame()
 state = strategy.state
 players = strategy.players
 turn = 0

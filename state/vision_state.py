@@ -1,3 +1,4 @@
+from model import Board
 from state.state import State
 import vision.state_reader as sr
 from utils.tic_tac_toe_utils import diff
@@ -30,7 +31,7 @@ class VisionState(State):
                 r += 1
             else:
                 r = 0
-        return board
+        return Board(board)
 
     def move(self, r, c, move):
         pass

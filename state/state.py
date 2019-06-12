@@ -1,5 +1,6 @@
 from abc import abstractmethod, ABC
-from utils.tic_tac_toe_utils import winning, is_full
+
+from model import Board
 
 
 class State(ABC):
@@ -12,14 +13,14 @@ class State(ABC):
         board = self.board()
         for i in range(0, len(board)):
             for j in range(0, len(board)):
-                result += str(board[i][j])
+                result += str(board(i,j))
                 if j < len(board) - 1:
                     result += " "
             result += "\n"
         return result
 
     @abstractmethod
-    def board(self):
+    def board(self) -> Board:
         pass
 
     def end(self):
@@ -35,10 +36,10 @@ class State(ABC):
         return 0
 
     def _is_full(self):
-        return is_full(self.board())
+        return self.board().is_full()
 
     def _winning(self, move):
-        return winning(self.board(), move)
+        return self.board().winning(move)
 
     @abstractmethod
     def move(self, r, c, move):
