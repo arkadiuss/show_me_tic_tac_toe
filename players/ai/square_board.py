@@ -1,3 +1,5 @@
+from math import inf
+
 from model import Board
 
 
@@ -30,13 +32,13 @@ def optimum_move(board: Board, opponent_move, player_move, cur_move):
 
     # choosing best move for current player
     if cur_move == player_move:
-        best_score = -10000
+        best_score = -inf
         for i in range(0, len(moves)):
             if moves[i].score > best_score:
                 best_score = moves[i].score
                 best_move = i
     else:
-        best_score = 10000
+        best_score = inf
         for i in range(0, len(moves)):
             if moves[i].score < best_score:
                 best_score = moves[i].score

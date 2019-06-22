@@ -1,6 +1,7 @@
 from errors.move_error import MoveError
 from speech import Speech
 from strategies.console_game import ConsoleGame
+from strategies.console_pvp_game import ConsolePvpGame
 from strategies.vision_game import VisionHumanPlayersGame
 
 
@@ -15,6 +16,7 @@ def result_text(sym, plrs):
 
 # strategy = ConsoleGame()
 strategy = VisionHumanPlayersGame()
+# strategy = ConsolePvpGame()
 state = strategy.state
 players = strategy.players
 turn = 0
